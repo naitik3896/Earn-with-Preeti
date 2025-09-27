@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>EARN WITH PREETI</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EARN WITH PREETI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root {
+      --primary-color: #0D47A1;
+      --secondary-color: #42A5F5;
+      --accent-color: #FFD54F;
+      --background-color: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+      --card-bg-color: rgba(255, 255, 255, 0.95);
+      --text-color: #212121;
+      --border-color: #CFD8DC;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-dark: rgba(0, 0, 0, 0.2);
+      --success-color: #2E7D32;
+      --error-color: #C62828;
+      --pending-color: #F57C00;
+      --green-color: #28A745;
+      --red-color: #DC3545;
+      --violet-color: #6F42C1;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--background-color);
+      color: var(--text-color);
+      padding: 20px;
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #1e3a8a;
+    }
+    .main-container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--card-bg-color);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 8px 28px var(--shadow-light);
+      backdrop-filter: blur(8px);
+    }
+    .header {
+      font-size: 2.7rem;
+      font-weight: 700;
+      text-align: center;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 32px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px var(--shadow-light);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    .card:hover {
+      box-shadow: 0 8px 24px var(--shadow-dark);
+      transform: translateY(-3px);
+    }
+    .card div {
+      margin: 14px 0;
+      font-size: 1.15rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card i {
+      color: var(--secondary-color);
+      font-size: 1.2rem;
+    }
+    .prediction-box {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: #FFFFFF;
+      border-radius: 14px;
+      padding: 20px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(13, 71, 161, 0.3);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      min-height: 60px; /* To prevent layout shift while loading */
+    }
+    .prediction-box::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .prediction-box:hover::after {
+      opacity: 1;
+    }
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .results-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+    .past-results-toggle {
+      font-size: 0.95rem;
+      color: var(--secondary-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .past-results-toggle:hover {
+      color: var(--primary-color);
+      transform: scale(1.05);
+    }
+    .past-results-container {
+      display: none;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px var(--shadow-light);
+      max-height: 320px;
+      overflow-y: auto;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    .past-results-container.show {
+      display: block;
+    }
+    .past-result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.95rem;
+    }
+    .past-result-item:last-child {
+      border-bottom: none;
+    }
+    .past-result-value {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .past-result-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #FFFFFF;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+    .results-container {
+      display: flex;
+      overflow-x: auto;
+      padding: 12px 0;
+      margin-bottom: 24px;
+      gap: 18px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--secondary-color) var(--border-color);
+    }
+    .results-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    .results-container::-webkit-scrollbar-thumb {
+      background: var(--secondary-color);
+      border-radius: 8px;
+    }
+    .result-circle {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px var(--shadow-dark);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      animation: bounceIn 0.6s ease-out forwards;
+    }
+    .result-circle .number {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .result-circle .size {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    .history-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px var(--shadow-light);
+      max-height: 440px;
+      overflow-y: auto;
+      backdrop-filter: blur(4px);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 16px;
+      font-size: 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+    th {
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      color: #FFFFFF;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    td {
+      font-weight: 500;
+    }
+    tr:nth-child(even) {
+      background: #F5F9FD;
+    }
+    tr:hover {
+      background: #E3F2FD;
+      transition: background 0.2s ease;
+    }
+    .status-icon {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      color: #FFFFFF;
+      text-align: center;
+      box-shadow: 0 2px 8px var(--shadow-dark);
+    }
+    .status-icon.win {
+      background: var(--success-color);
+      animation: pulse 0.6s ease-in-out;
+    }
+    .status-icon.loss {
+      background: var(--error-color);
+      animation: shake 0.6s ease-in-out;
+    }
+    .status-icon.pending {
+      background: var(--pending-color);
+      animation: rotate 1.5s linear infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.9); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-4px); }
+      40%, 80% { transform: translateX(4px); }
+    }
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loading-spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #FFFFFF;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @media (max-width: 680px) {
+      body { padding: 10px; }
+      .main-container { padding: 16px; }
+      .header { font-size: 2.3rem; }
+      .card { padding: 20px; }
+      .prediction-box { font-size: 1.15rem; padding: 16px; }
+      .result-circle { width: 60px; height: 60px; }
+      .result-circle .number { font-size: 1.3rem; }
+      .result-circle .size { font-size: 0.75rem; }
+      th, td { font-size: 0.9rem; padding: 12px; }
+      .status-icon { width: 26px; height: 26px; font-size: 1rem; }
+      .past-result-circle { width: 40px; height: 40px; font-size: 0.8rem; }
+      .past-results-container { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+    <div class="main-container">
+      <div class="header">EARN WITH PREETI</div>
+      <div class="card">
+        <div id="currentPeriod"><i class="fas fa-calendar-day"></i> Current Period: Loading...</div>
+        <div id="liveTime"><i class="fas fa-hourglass-half"></i> Time: --:--:--</div>
+        <div id="predictionBox" class="prediction-box">
+          <div class="loading-spinner"></div>
+        </div>
+      </div>
+
+      <div class="results-header">
+        <span class="results-title">Recent Results</span>
+        <span class="past-results-toggle" id="pastResultsToggle">Past Results</span>
+      </div>
+      <div class="results-container" id="resultsContainer"></div>
+      <div class="past-results-container" id="pastResultsContainer"></div>
+
+      <div class="history-container">
+        <table>
+          <thead id="tableHead">
+            <tr><th>Period</th><th>Prediction</th><th>Actual</th><th>Status</th></tr>
+          </thead>
+          <tbody id="tableBody"><tr><td colspan="4">Loading data...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+<script>
+  // --- Main App Constants & Functions ---
+  const CURRENT_API = 'https://api.bdg88zf.com/api/webapi/GetGameIssue';
+  const HISTORY_API = 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json';
+
+  const REQUEST_DATA = {
+    typeId: 1,
+    language: 0,
+    random: "e7fe6c090da2495ab8290dac551ef1ed",
+    signature: "1F390E2B2D8A55D693E57FD905AE73A7",
+    timestamp: 1723726679
+  };
+
+  let predictionHistory = [];
+  let last100Results = [];
+  let lastHistoryHash = '';
+  let fetchInterval, timeInterval;
+
+  const BIG_NUMBERS = [5, 6, 7, 8, 9];
+  const SMALL_NUMBERS = [0, 1, 2, 3, 4];
+
+  // Determines if a number is Big (>=5) or Small (<5)
+  function getBigSmall(num) { return num >= 5 ? "Big" : "Small"; }
+  
+  // Gets color based on number
+  function getColor(num) {
+    if ([1, 3, 7, 9].includes(num)) return { name: "Green", hex: "var(--green-color)" };
+    if ([2, 4, 6, 8].includes(num)) return { name: "Red", hex: "var(--red-color)" };
+    return { name: "Violet", hex: "var(--violet-color)" };
+  }
+  
+  // Generates two unique random numbers from the opposite size category
+  function getOppositeNumbers(size) {
+    const pool = size === "Big" ? SMALL_NUMBERS : BIG_NUMBERS;
+    if (pool.length < 2) {
+      return [];
+    }
+    let numbers = [];
+    while(numbers.length < 2) {
+      const randomIndex = Math.floor(Math.random() * pool.length);
+      const number = pool[randomIndex];
+      if (!numbers.includes(number)) {
+        numbers.push(number);
+      }
+    }
+    return numbers;
+  }
+
+  function updateLiveTime() {
+    const options = { timeZone: 'Asia/Kolkata', hour12: true, hour: 'numeric', minute: '2-digit', second: '2-digit' };
+    const liveTimeEl = document.getElementById("liveTime");
+    if (liveTimeEl) {
+        liveTimeEl.innerHTML = `<i class="fas fa-hourglass-half"></i> Time: ${new Date().toLocaleTimeString('en-US', options)}`;
+    }
+  }
+
+  function hashHistory(history) {
+    return history.map(item => item.period + item.number).join(',');
+  }
+
+  function getShortPeriod(period) {
+    return period.toString().slice(-3);
+  }
+  
+  // The core prediction logic
+  function getPrediction(history) {
+    if (!history || history.length < 3) {
+      return { text: "Analyzing...", predictedSize: null, opposites: [] };
+    }
+    // Get the size (Big/Small) of the last 3 results
+    const last3Sizes = history.slice(0, 3).map(item => getBigSmall(item.number));
+    const sizeCounts = {};
+    for (const size of last3Sizes) {
+      sizeCounts[size] = (sizeCounts[size] || 0) + 1;
+    }
+    
+    let predictedSize = null;
+    let maxCount = 0;
+    for (const size in sizeCounts) {
+      if (sizeCounts[size] > maxCount) {
+        maxCount = sizeCounts[size];
+        predictedSize = size;
+      }
+    }
+    
+    // Only predict if a size appeared at least twice
+    if (maxCount < 2) {
+      return { text: "Analyzing...", predictedSize: null, opposites: [] };
+    }
+
+    const oppositeNumbers = getOppositeNumbers(predictedSize);
+    const predictionText = `Prediction: <strong>${predictedSize}</strong> <br><small>(Opposites: ${oppositeNumbers.join(", ")})</small>`;
+    
+    return {
+      text: predictionText,
+      predictedSize: predictedSize,
+      opposites: oppositeNumbers
+    };
+  }
+
+  function renderResults(results) {
+    const container = document.getElementById("resultsContainer");
+    if (!container) return;
+    container.innerHTML = results.slice(0, 5).map((item, index) => {
+      const color = getColor(item.number);
+      const sizeText = getBigSmall(item.number).charAt(0);
+      return `
+        <div class="result-circle" style="background: ${color.hex}; animation-delay: ${index * 0.15}s;">
+          <div class="number">${item.number}</div>
+          <div class="size">${sizeText}</div>
+        </div>`;
+    }).join("");
+  }
+
+  function renderPastResults(results) {
+    const container = document.getElementById("pastResultsContainer");
+    if (!container) return;
+    container.innerHTML = results.slice(0, 20).map(item => {
+      const color = getColor(item.number);
+      const sizeText = getBigSmall(item.number).charAt(0);
+      const shortPeriod = getShortPeriod(item.period);
+      return `
+        <div class="past-result-item">
+          <span class="past-result-period">${shortPeriod}</span>
+          <div class="past-result-value">
+            <div class="past-result-circle" style="background: ${color.hex};">
+              <div>${item.number}</div>
+              <div>${sizeText}</div>
+            </div>
+          </div>
+        </div>`;
+    }).join("");
+  }
+
+  function renderTable() {
+    const body = document.getElementById("tableBody");
+    if (!body) return;
+    body.innerHTML = predictionHistory.slice(0, 10).map(item => {
+      const icon = item.status === "Win" ? "✔" : item.status === "Loss" ? "✖" : "⌛";
+      const shortPeriod = getShortPeriod(item.period);
+      return `
+        <tr>
+          <td>${shortPeriod}</td>
+          <td>${item.prediction}</td>
+          <td>${item.actualNum !== "--" ? `${item.actual} (${item.actualNum})` : "--"}</td>
+          <td><span class="status-icon ${item.status.toLowerCase()}">${icon}</span></td>
+        </tr>`;
+    }).join("") || "<tr><td colspan='4'>No predictions yet</td></tr>";
+  }
+  
+  // Fetches data and updates the UI
+  async function fetchData() {
+    try {
+      const periodRes = await fetch(CURRENT_API, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...REQUEST_DATA, timestamp: Math.floor(Date.now() / 1000) })
+      });
+      const periodData = await periodRes.json();
+      const period = periodData?.data?.issueNumber || "Unavailable";
+      const currentPeriodEl = document.getElementById("currentPeriod");
+      if (currentPeriodEl) {
+        currentPeriodEl.innerHTML = `<i class="fas fa-calendar-day"></i> Current Period: ${getShortPeriod(period)}`;
+      }
+  
+      const res = await fetch(HISTORY_API + '?ts=' + Date.now());
+      const data = await res.json();
+      if (!data?.data?.list) {
+        const predictionBox = document.getElementById("predictionBox");
+        if (predictionBox) predictionBox.innerText = "Error: Invalid or empty dataset.";
+        return;
+      }
+      const newResults = data.data.list.slice(0, 100).map(item => {
+        const num = parseInt(item.number, 10);
+        return { period: item.issueNumber, number: num };
+      });
+  
+      const newHash = hashHistory(newResults);
+      last100Results = newResults;
+  
+      const existingPrediction = predictionHistory.find(p => p.period === period);
+      const predictionBox = document.getElementById("predictionBox");
+
+      if (predictionBox) {
+        if (existingPrediction) {
+          predictionBox.innerHTML = existingPrediction.prediction;
+        } else {
+          const prediction = getPrediction(last100Results);
+          predictionBox.innerHTML = prediction.text || "Prediction Error";
+          
+          if (prediction.predictedSize && period !== "Unavailable") {
+            predictionHistory.unshift({
+              period,
+              prediction: prediction.text,
+              actual: "--",
+              actualNum: "--",
+              status: "Pending",
+              predictedSize: prediction.predictedSize,
+              opposites: prediction.opposites
+            });
+            if (predictionHistory.length > 20) predictionHistory.pop();
+          }
+        }
+      }
+  
+      let historyUpdated = false;
+      predictionHistory.forEach(ph => {
+        if (ph.status === "Pending") {
+          const match = last100Results.find(h => h.period === ph.period);
+          if (match) {
+            ph.actual = getBigSmall(match.number);
+            ph.actualNum = match.number;
+            ph.status =
+              ph.predictedSize === ph.actual || ph.opposites.includes(match.number)
+                ? "Win"
+                : "Loss";
+            historyUpdated = true;
+          }
+        }
+      });
+  
+      renderResults(last100Results);
+      renderPastResults(last100Results);
+      if (historyUpdated || newHash !== lastHistoryHash) {
+        renderTable();
+      }
+      lastHistoryHash = newHash;
+    } catch (e) {
+      const predictionBox = document.getElementById("predictionBox");
+      if (predictionBox) predictionBox.innerHTML = "Prediction Error";
+      console.error("Fetch error:", e.message);
+    }
+  }
+
+  // --- Main App Logic for starting the services ---
+  function startApp() {
+    clearInterval(fetchInterval);
+    clearInterval(timeInterval);
+    
+    timeInterval = setInterval(updateLiveTime, 1000);
+    fetchInterval = setInterval(fetchData, 3000);
+    fetchData(); // Initial fetch
+  }
+
+  // --- Initial Setup and Event Listeners ---
+  document.addEventListener("DOMContentLoaded", () => {
+    const pastResultsToggle = document.getElementById("pastResultsToggle");
+    if (pastResultsToggle) {
+        pastResultsToggle.addEventListener("click", () => {
+            const container = document.getElementById("pastResultsContainer");
+            if (container) container.classList.toggle("show");
+        });
+    }
+    
+    startApp();
+  });
+
+</script>
+</body>
+</html>
