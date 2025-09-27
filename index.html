@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MRS PREETI SINGH PREDICTOR - Login</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #f9f9f9; color: #222; }
+    .box { margin: 40px auto; padding: 30px; width: 350px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h2 { color: #0056d6; margin-bottom: 20px; }
+    img { width: 220px; margin: 10px 0; border-radius: 10px; }
+    .upi { margin: 15px 0; padding: 10px; background: #eef4ff; border-radius: 6px; cursor: pointer; color: #0056d6; font-weight: bold; }
+    .upi:hover { background: #dce9ff; }
+    button { margin: 12px 0; padding: 12px; width: 100%; background: #0056d6; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    button:hover { background: #0041a8; }
+    input { padding: 10px; margin: 12px 0; width: 90%; border: 1px solid #ccc; border-radius: 6px; }
+    #msg { color: red; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Welcome to MRS PREETI SINGH PREDICTOR</h2>
+    <p>Scan & Pay using the QR below 👇</p>
+    <img src="qr.png" alt="Payment QR">
+    
+    <div class="upi" onclick="copyUPI()">📋 UPI: naitikxgod@fam</div>
+    
+    <button onclick="window.location.href='https://t.me/Itz_prittuuu421'">
+      ✅ Payment Done - Share SS & Get Password
+    </button>
+    
+    <h3>Enter Password to Continue</h3>
+    <input type="password" id="password" placeholder="Enter 10-digit password">
+    <button onclick="checkPassword()">Login</button>
+    <p id="msg"></p>
+  </div>
+
+  <script>
+    function copyUPI() {
+      navigator.clipboard.writeText("naitikxgod@fam");
+      alert("✅ UPI ID copied: naitikxgod@fam");
+    }
+
+    function checkPassword() {
+      let pass = document.getElementById("password").value;
+      let correct = "1234567890"; // 🔑 Replace with your random 10-digit password
+      if(pass === correct){
+        window.location.href = "main.html";
+      } else {
+        document.getElementById("msg").innerText = "❌ Wrong Password! Try again.";
+      }
+    }
+  </script>
+</body>
+</html>
